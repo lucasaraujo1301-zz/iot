@@ -40,6 +40,10 @@ INSTALLED_APPS = [
 
     'authentication',
     'comum',
+
+    'adminlte3',
+    'adminlte3_theme',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
