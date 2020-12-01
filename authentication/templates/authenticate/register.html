@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+{% load comum_extras %}
+{% block extra_css %}
+    <style>
+        .main-header {
+            margin-left: 0 !important;
+        }
+
+        .content-wrapper {
+            margin-left: 0 !important;
+        }
+
+        .main-footer {
+            margin-left: 0 !important;
+        }
+    </style>
+{% endblock %}
+{% block title_page %}
+    <h1 class="m-0 text-white">Register</h1>
+{% endblock %}
+{% block bread_crumb %}
+    <ul class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item ">Home</li>
+        <li class="breadcrumb-item active">Register</li>
+    </ul>
+{% endblock %}
+{% block content %}
+    <div class="card" style="margin-left: 25em; margin-right: 25em">
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">Register a new membership</p>
+
+            <form action="{% url 'authentication:register' %}" method="post">
+                {% csrf_token %}
+
+                {{ form.name.errors }}
+                <div class="input-group mb-3">
+                    {{ form.name|add_css_class_placeholder:'form-control,Full name' }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+
+                {{ form.cpf.errors }}
+                <div class="input-group mb-3">
+                    {{ form.cpf|add_css_class_placeholder:'form-control,CPF' }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-id-card"></span>
+                        </div>
+                    </div>
+                </div>
+
+                {{ form.birth_date.errors }}
+                <div class="input-group mb-3">
+                    {{ form.birth_date|add_css_class_placeholder:'form-control,Birth Date' }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-calendar-alt"></span>
+                        </div>
+                    </div>
+                </div>
+
+                {{ form.email.errors }}
+                <div class="input-group mb-3">
+                    {{ form.email|add_css_class_placeholder:'form-control,Email' }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+
+                {{ form.password1.errors }}
+                <div class="input-group mb-3">
+                    {{ form.password1|add_css_class_placeholder:'form-control,Password' }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
+                {{ form.password2.errors }}
+                <div class="input-group mb-3">
+                    {{ form.password2|add_css_class_placeholder:'form-control,Retype password' }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+        </div>
+        <!-- /.form-box -->
+    </div><!-- /.card -->
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'dist/js/jquery.maskedinput.min.js' %}"></script>
+    <script>
+        $(function () {
+            $("#id_birth_date").mask("99/99/9999");
+            $("#id_cpf").mask("999.999.999-99");
+
+            if ($('#id_cpf').val() === "") {
+                $("#id_password1, #id_password2, #salvar").prop("disabled", true);
+            }
+        })
+    </script>
+
+{% endblock %}

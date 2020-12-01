@@ -10,5 +10,5 @@ from django.http import HttpResponse, JsonResponse
 @login_required()
 def index(request):
 
-    return render(request, 'index.html', locals())
+    return render(request, 'comum/index.html', locals())
 
