@@ -15,11 +15,71 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="info">
-                    <a href="#" class="d-block">{% if request.user.usuario.name %} {{ request.user.usuario.name }} {% else %} Admin {% endif %}</a>
+                    <a href="#" class="d-block">{% if request.user.usuario.name %}
+                        {{ request.user.usuario.name }} {% else %} Admin {% endif %}</a>
                 </div>
             </div>
             <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->
     </aside>
+{% endblock %}
+
+{% block title_page %}
+    <h1 class="m-0 text-white">Dashboard</h1>
+{% endblock %}
+
+{% block bread_crumb %}
+    <ul class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item active">Home</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="row" id="lamps">
+        {% for lamp in lamps %}
+
+            <div class="col-md-4">
+                <img src="{% if lamp.active %} {% static 'img/Lon.png' %} {% else %} {% static 'img/Loff.png' %} {% endif %}"
+                     alt="" id="lamp_{{ lamp.lamp_id }}">
+
+                <button class="btn btn-primary off" onclick="change_lamp({{ lamp.lamp_id }}, 'False')"
+                        style="display: {% if not lamp.active %} none {% endif %}" id="off_{{ lamp.lamp_id }}">Off
+                </button>
+                <button class="btn btn-primary on" onclick="change_lamp({{ lamp.lamp_id }}, 'True')"
+                        style="display: {% if lamp.active %} none {% endif %}" id="on_{{ lamp.lamp_id }}">On
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(function () {
+            $('.off-empty').css('display', 'none');
+        })
+
+        function change_lamp(id, on) {
+            $.ajax({
+                method: 'GET',
+                url: '/change/lamp/' + id + '/' + on,
+                context: 'application/json',
+                success: function (data) {
+                    if (data.active === 'False') {
+                        $('#lamp_' + id).attr('src', '{% static 'img/Loff.png' %}')
+                        $('#on_' + id).css('display', 'inline-block')
+                        $('#off_' + id).css('display', 'none')
+
+
+                    } else if (data.active === 'True') {
+                        $('#lamp_' + id).attr('src', '{% static 'img/Lon.png' %}')
+                        $('#on_' + id).css('display', 'none')
+                        $('#off_' + id).css('display', 'inline-block')
+
+                    }
+                }
+            })
+        }
+    </script>
 {% endblock %}

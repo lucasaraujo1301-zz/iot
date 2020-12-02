@@ -17,3 +17,13 @@ class Usuario(models.Model):
         if self.birth_date:
             return today.year - self.birth_date.year - (
                     (today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+
+
+class Lamp(models.Model):
+    name = models.CharField(max_length=6)
+
+
+class UserLamp(models.Model):
+    active = models.BooleanField(default=False)
+    lamp = models.ForeignKey(Lamp, related_name='lamp', on_delete=models.PROTECT)
+    user = models.ForeignKey(User, related_name='user', on_delete=models.PROTECT)

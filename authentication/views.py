@@ -39,9 +39,7 @@ def register(request):
     form = NewUserForm(request.POST or None)
 
     if request.POST:
-        print(form.errors)
         if form.is_valid():
-            print('ok')
             cpf_unmask = CPF.get_digits(form.cleaned_data.get('cpf'))
             user = User.objects.create(username=cpf_unmask,
                                        password=make_password(form.cleaned_data.get("password1")),
