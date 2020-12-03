@@ -87,11 +87,11 @@ WSGI_APPLICATION = 'iot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'iot',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'postgres',
-        # 'HOST': 'localhost',
-        # 'PORT': '5432',
+        'NAME': 'd9sfs2gf792qaa',
+        'USER': 'kdvpiydchxuwko',
+        'PASSWORD': '96debfca66b4cbf697a78b1e1e3952c84c2b9c604134c04c0cee1463ea0690b9',
+        'HOST': 'ec2-52-203-165-126.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
