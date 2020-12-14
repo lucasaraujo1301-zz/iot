@@ -6,6 +6,9 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from comum.models import *
+from datetime import datetime
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 @login_required
@@ -20,6 +23,18 @@ def index(request):
             UserLamp.objects.create(user=request.user, lamp=lamp)
 
     lamps = UserLamp.objects.filter(user=request.user).order_by('id')
+
+    alarms = Alarm.objects.all()
+
+    times = [alarm.time.strftime('%H:%M') for alarm in alarms]
+    positionsy = [alarm.position.split(',')[1] for alarm in alarms]
+    positionsx = [alarm.position.split(',')[0] for alarm in alarms]
+
+    context = {
+        'times': json.dumps(times, cls=DjangoJSONEncoder),
+        'positionsy': json.dumps(positionsy),
+        'positionsx': json.dumps(positionsx)
+    }
 
     return render(request, 'comum/index.html', locals())
 
@@ -38,5 +53,19 @@ def change_lamp(request, id, on):
         lamp = UserLamp.objects.create(active=True, user=request.user, lamp=Lamp.objects.get(id=id))
 
         data['active'] = lamp.active
+
+    return JsonResponse(data, safe=False)
+
+
+def teste_droid(request, x, y):
+    data = {}
+
+    position = str(x)+','+str(y)
+    time = datetime.now().strftime("%H:%M")
+
+    alarm = Alarm.objects.filter(position=position, time=time).first()
+
+    if not alarm:
+        Alarm.objects.create(position=position, time=time)
 
     return JsonResponse(data, safe=False)
