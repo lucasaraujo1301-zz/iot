@@ -63,7 +63,7 @@
     <script>
         var ctx = document.getElementById("speedChart");
         var times = JSON.parse(JSON.stringify({{ times|safe }}));
-        var positionsy = JSON.parse(JSON.stringify({{ speed|safe }}));
+        var speed = JSON.parse(JSON.stringify({{ speeds|safe }}));
 
         var alarmYChart = new Chart(ctx, {
             type: 'line',
@@ -71,7 +71,7 @@
                 labels: times,
                 datasets: [{
                     label: 'Speed',
-                    data: positionsy,
+                    data: speed,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
