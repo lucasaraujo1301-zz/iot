@@ -29,9 +29,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'comum:alarm' %}">
+                        <a href="{% url 'comum:speed' %}">
                             <i class="nav-icon fas fa-stopwatch-20"></i>
-                            Alarm
+                            Speed
                         </a>
                     </li>
                 </ul>
@@ -67,95 +67,11 @@
                 </button>
             </div>
         {% endfor %}
-
-        <canvas id="alarmsYChart" width="150" height="100"></canvas>
-        <canvas id="alarmsXChart" width="150" height="100"></canvas>
     </div>
 {% endblock %}
 
 {% block extra_js %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.js"></script>
     <script>
-        var ctx = document.getElementById("alarmsYChart");
-        var ctx2 = document.getElementById("alarmsXChart");
-        var times = JSON.parse(JSON.stringify({{ times|safe }}));
-        var positionsy = JSON.parse(JSON.stringify({{ positionsy|safe }}));
-        var positionsx = JSON.parse(JSON.stringify({{ positionsx|safe }}));
-
-        var alarmYChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: times,
-                datasets: [{
-                    label: 'Alarms (y)',
-                    data: positionsy,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-
-        var alarmXChart = new Chart(ctx2, {
-            type: 'line',
-            data: {
-                labels: times,
-                datasets: [{
-                    label: 'Alarms (x)',
-                    data: positionsx,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-
         $(function () {
             $('.off-empty').css('display', 'none');
         })

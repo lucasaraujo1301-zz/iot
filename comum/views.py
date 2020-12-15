@@ -45,31 +45,28 @@ def change_lamp(request, id, on):
     return JsonResponse(data, safe=False)
 
 
-def alarm_droid_script(request, x, y):
+def speed_droid_script(request, speed):
     data = {}
 
-    position = str(x)+','+str(y)
-    time = datetime.now().strftime("%H:%M")
+    time = datetime.now().strftime("%H:%M:%S")
 
-    alarm = Alarm.objects.filter(position=position, time=time).first()
+    speed = Speed.objects.filter(speed=speed, time=time).first()
 
-    if not alarm:
-        Alarm.objects.create(position=position, time=time)
+    if not speed:
+        Speed.objects.create(speed=speed, time=time)
 
     return JsonResponse(data, safe=False)
 
 
-def alarm(request):
-    alarms = Alarm.objects.all()
+def speed(request):
+    speeds = Speed.objects.all()
 
-    times = [alarm.time.strftime('%H:%M') for alarm in alarms]
-    positionsy = [alarm.position.split(',')[1] for alarm in alarms]
-    positionsx = [alarm.position.split(',')[0] for alarm in alarms]
+    times = [speed.time.strftime('%H:%M') for speed in speeds]
+    speeds = [speed.speed for speed in speeds]
 
     context = {
         'times': json.dumps(times, cls=DjangoJSONEncoder),
-        'positionsy': json.dumps(positionsy),
-        'positionsx': json.dumps(positionsx)
+        'speeds': json.dumps(speeds),
     }
 
     return render(request, 'comum/alarm.html', locals())

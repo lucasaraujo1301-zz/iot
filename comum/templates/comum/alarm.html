@@ -29,9 +29,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'comum:alarm' %}">
+                        <a href="{% url 'comum:speed' %}">
                             <i class="nav-icon fas fa-stopwatch-20"></i>
-                            Alarm
+                            Speed
                         </a>
                     </li>
                 </ul>
@@ -42,38 +42,35 @@
 {% endblock %}
 
 {% block title_page %}
-    <h1 class="m-0 text-white">Dashboard</h1>
+    <h1 class="m-0 text-white">Speed</h1>
 {% endblock %}
 
 {% block bread_crumb %}
     <ul class="breadcrumb float-sm-right">
         <li class="breadcrumb-item">Home</li>
-        <li class="breadcrumb-item active">Alarm</li>
+        <li class="breadcrumb-item active">Speed</li>
     </ul>
 {% endblock %}
 
 {% block content %}
     <div class="row" id="lamps">
-        <canvas id="alarmsYChart" width="150" height="100"></canvas>
-        <canvas id="alarmsXChart" width="150" height="100"></canvas>
+        <canvas id="speedChart" width="150" height="100"></canvas>
     </div>
 {% endblock %}
 
 {% block extra_js %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.js"></script>
     <script>
-        var ctx = document.getElementById("alarmsYChart");
-        var ctx2 = document.getElementById("alarmsXChart");
+        var ctx = document.getElementById("speedChart");
         var times = JSON.parse(JSON.stringify({{ times|safe }}));
-        var positionsy = JSON.parse(JSON.stringify({{ positionsy|safe }}));
-        var positionsx = JSON.parse(JSON.stringify({{ positionsx|safe }}));
+        var positionsy = JSON.parse(JSON.stringify({{ speed|safe }}));
 
         var alarmYChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: times,
                 datasets: [{
-                    label: 'Alarms (y)',
+                    label: 'Speed',
                     data: positionsy,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -104,68 +101,5 @@
                 }
             }
         });
-
-        var alarmXChart = new Chart(ctx2, {
-            type: 'line',
-            data: {
-                labels: times,
-                datasets: [{
-                    label: 'Alarms (x)',
-                    data: positionsx,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-
-        $(function () {
-            $('.off-empty').css('display', 'none');
-        })
-
-        function change_lamp(id, on) {
-            $.ajax({
-                method: 'GET',
-                url: '/change/lamp/' + id + '/' + on,
-                context: 'application/json',
-                success: function (data) {
-                    if (data.active === 'False') {
-                        $('#lamp_' + id).attr('src', '{% static 'img/Loff.png' %}')
-                        $('#on_' + id).css('display', 'inline-block')
-                        $('#off_' + id).css('display', 'none')
-
-
-                    } else if (data.active === 'True') {
-                        $('#lamp_' + id).attr('src', '{% static 'img/Lon.png' %}')
-                        $('#on_' + id).css('display', 'none')
-                        $('#off_' + id).css('display', 'inline-block')
-
-                    }
-                }
-            })
-        }
     </script>
 {% endblock %}

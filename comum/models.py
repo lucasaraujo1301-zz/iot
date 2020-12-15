@@ -29,6 +29,6 @@ class UserLamp(models.Model):
     user = models.ForeignKey(User, related_name='user', on_delete=models.PROTECT)
 
 
-class Alarm(models.Model):
-    time = models.TimeField(auto_now=True)
-    position = models.CharField(max_length=6)
+class Speed(models.Model):
+    time = models.TimeField()
+    speed = models.CharField(max_length=3)
