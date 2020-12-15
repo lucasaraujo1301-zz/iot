@@ -50,9 +50,9 @@ def speed_droid_script(request, speed):
 
     time = datetime.now().strftime("%H:%M:%S")
 
-    speed = Speed.objects.filter(speed=speed, time=time).first()
+    velocity = Speed.objects.filter(speed=speed, time=time).first()
 
-    if not speed:
+    if not velocity:
         Speed.objects.create(speed=speed, time=time)
 
     return JsonResponse(data, safe=False)
