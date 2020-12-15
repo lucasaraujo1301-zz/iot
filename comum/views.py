@@ -24,18 +24,6 @@ def index(request):
 
     lamps = UserLamp.objects.filter(user=request.user).order_by('id')
 
-    alarms = Alarm.objects.all()
-
-    times = [alarm.time.strftime('%H:%M') for alarm in alarms]
-    positionsy = [alarm.position.split(',')[1] for alarm in alarms]
-    positionsx = [alarm.position.split(',')[0] for alarm in alarms]
-
-    context = {
-        'times': json.dumps(times, cls=DjangoJSONEncoder),
-        'positionsy': json.dumps(positionsy),
-        'positionsx': json.dumps(positionsx)
-    }
-
     return render(request, 'comum/index.html', locals())
 
 
@@ -57,7 +45,7 @@ def change_lamp(request, id, on):
     return JsonResponse(data, safe=False)
 
 
-def teste_droid(request, x, y):
+def alarm_droid_script(request, x, y):
     data = {}
 
     position = str(x)+','+str(y)
@@ -69,3 +57,19 @@ def teste_droid(request, x, y):
         Alarm.objects.create(position=position, time=time)
 
     return JsonResponse(data, safe=False)
+
+
+def alarm(request):
+    alarms = Alarm.objects.all()
+
+    times = [alarm.time.strftime('%H:%M') for alarm in alarms]
+    positionsy = [alarm.position.split(',')[1] for alarm in alarms]
+    positionsx = [alarm.position.split(',')[0] for alarm in alarms]
+
+    context = {
+        'times': json.dumps(times, cls=DjangoJSONEncoder),
+        'positionsy': json.dumps(positionsy),
+        'positionsx': json.dumps(positionsx)
+    }
+
+    return render(request, 'comum/alarm.html', locals())
